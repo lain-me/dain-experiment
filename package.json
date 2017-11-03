@@ -1,17 +1,17 @@
 {
-  "name": "dain-experiment",
-  "version": "1.0.0",
-  "description": "test",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon -L app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.16.2",
-    "mongodb": "^2.2.33",
-    "nodemon": "^1.12.1"
-  }
+	"name": "dain-experiment",
+	"version": "1.0.0",
+	"description": "test",
+	"main": "index.js",
+	"scripts": {
+		"start": "nodemon -L app.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.16.2",
+		"mongodb": "^2.2.33",
+		"nodemon": "^1.12.1"
+	}
 }

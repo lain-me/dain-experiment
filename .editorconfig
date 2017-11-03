@@ -1,0 +1,16 @@
+# top-most EditorConfig file
+root = true
+
+# Matches multiple files with brace expansion notation
+# Set default charset
+[*]
+end_of_line = lf
+charset = utf-8
+indent_style = tab
+indent_size = 3
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.md]
+max_line_length = 0
+trim_trailing_whitespace = false

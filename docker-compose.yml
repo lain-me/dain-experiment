@@ -29,18 +29,32 @@ services:
          environment:
             USER: user2
 
+    web2:
+         image: node:8.9.0-alpine
+         container_name: express-container2
+         ports:
+            - 3003:3000
+         volumes:
+            - ./:/app/
+         working_dir: /app
+         links:
+            - mongodb
+         command: npm start
+         environment:
+            USER: user3
+
     mongodb:
         image: mongo
         container_name: mongodb
         ports:
           - 27017:27017
-        expose: 
+        expose:
           - 27017
 
     mongo-express:
         image: mongo-express
         container_name: mongo-express
-        links: 
+        links:
           - mongodb
         ports:
           - 7000:8081
