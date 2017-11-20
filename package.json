@@ -4,8 +4,8 @@
 	"description": "test",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon build/app.js -w build/",
-		"compile": "tsc -w --outDir build/ ./src/app.ts"
+		"start": "nodemon dist/app.js -w dist/",
+		"compile": "tsc -w --outDir dist/ ./src/app.ts"
 	},
 	"author": "",
 	"license": "ISC",
