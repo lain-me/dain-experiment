@@ -1,64 +1,84 @@
 version: '3'
 
 services:
-    web1:
-         image: node:8.9.0-alpine
-         container_name: express-container1
-         ports:
-            - 3001:3000
-         volumes:
-            - ./:/app/
-         working_dir: /app
-         links:
-            - mongodb
-         command: npm start
-         environment:
-            - USER=user1
+   web1:
+      image: node:8.9.0-alpine
+      container_name: express-container1
+      ports:
+         - 3001:3000
+      volumes:
+         - .:/app            # share your code with the containers
+         - build:/app/build
+      working_dir: /app
+      links:
+         - mongodb
+      command: npm start
+      environment:
+         USER: user1
+         FORCE_COLOR: 1
 
-    web2:
-         image: node:8.9.0-alpine
-         container_name: express-container2
-         ports:
-            - 3002:3000
-         volumes:
-            - ./:/app/
-         working_dir: /app
-         links:
-            - mongodb
-         command: npm start
-         environment:
-            USER: user2
+   web2:
+      image: node:8.9.0-alpine
+      container_name: express-container2
+      ports:
+         - 3002:3000
+      volumes:
+         - .:/app            # share your code with the containers
+         - build:/app/build
+      working_dir: /app
+      links:
+         - mongodb
+      command: npm start
+      environment:
+         USER: user2
+         FORCE_COLOR: 1
 
-    web2:
-         image: node:8.9.0-alpine
-         container_name: express-container2
-         ports:
-            - 3003:3000
-         volumes:
-            - ./:/app/
-         working_dir: /app
-         links:
-            - mongodb
-         command: npm start
-         environment:
-            USER: user3
+   web3:
+      image: node:8.9.0-alpine
+      container_name: express-container3
+      ports:
+         - 3003:3000
+      volumes:
+         - .:/app            # share your code with the containers
+         - build:/app/build
+      working_dir: /app
+      links:
+         - mongodb
+      command: npm start
+      environment:
+         USER: user3
+         FORCE_COLOR: 1
 
-    mongodb:
-        image: mongo
-        container_name: mongodb
-        ports:
-          - 27017:27017
-        expose:
-          - 27017
+   transpiler:
+      image: node:8.9.0-alpine
+      container_name: tsc
+      working_dir: /app
+      volumes:
+         - .:/app            # share your code with the containers
+         - node_modules:/app/node_modules
+         - build:/app/build
+      # typescript should watch the src directory
+      command: npm i -g typescript && npm i && npm run compile
 
-    mongo-express:
-        image: mongo-express
-        container_name: mongo-express
-        links:
-          - mongodb
-        ports:
-          - 7000:8081
-        environment:
-          - ME_CONFIG_MONGODB_SERVER=mongodb
-          - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+   mongodb:
+      image: mongo
+      container_name: mongodb
+      ports:
+         - 27017:27017
+      expose:
+         - 27017
 
+   mongo-express:
+      image: mongo-express
+      container_name: mongo-express
+      links:
+         - mongodb
+      ports:
+         - 7000:8081
+      environment:
+         - ME_CONFIG_MONGODB_SERVER=mongodb
+         - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
+
+   volumes:
+      node_modules:
+      build:
