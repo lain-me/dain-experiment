@@ -1,11 +1,11 @@
-import { AbstractPacket } from './abstract-packet';
+import { ProtocolPacket } from './protocol-packet';
 
-export class AbstractLayer {
+export class ProtocolLayer {
 	constructor()
 	{
 	}
 
-	private _upperLayer : AbstractLayer = null;
+	private _upperLayer : ProtocolLayer = null;
 	public get upperLayer()
 	{
 		return this._upperLayer;
@@ -16,7 +16,7 @@ export class AbstractLayer {
 		this._upperLayer = value;
 	}
 
-	private _lowerLayer : AbstractLayer = null;
+	private _lowerLayer : ProtocolLayer = null;
 	public get lowerLayer()
 	{
 		return this._lowerLayer;
@@ -27,8 +27,11 @@ export class AbstractLayer {
 		this._lowerLayer = value;
 	}
 
-	transmit()
+	transmit(packet : ProtocolPacket)
 	{
 	}
 
+	receive(packet : ProtocolPacket)
+	{
+	}
 }
