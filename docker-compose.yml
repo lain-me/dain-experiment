@@ -21,6 +21,7 @@ services:
       volumes:
          - .:/app            # share your code with the containers
          - dist:/app/dist
+         - ./src/template:/app/template
       working_dir: /app
       links:
          - mongodb
@@ -37,6 +38,7 @@ services:
       volumes:
          - .:/app            # share your code with the containers
          - dist:/app/dist
+         - ./src/template:/app/template
       working_dir: /app
       links:
          - mongodb
@@ -53,6 +55,7 @@ services:
       volumes:
          - .:/app            # share your code with the containers
          - dist:/app/dist
+         - ./src/template:/app/template
       working_dir: /app
       links:
          - mongodb

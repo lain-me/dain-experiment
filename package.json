@@ -13,11 +13,13 @@
 		"chalk": "^2.3.0",
 		"express": "^4.16.2",
 		"keypair": "^1.0.1",
-		"mongodb": "^2.2.33"
+		"mongodb": "^2.2.33",
+		"socket.io": "^2.0.4"
 	},
 	"devDependencies": {
 		"@types/express": "^4.0.39",
 		"@types/node": "^8.0.53",
+		"@types/socket.io": "^1.4.31",
 		"nodemon": "^1.12.1",
 		"typescript": "^2.6.1"
 	}

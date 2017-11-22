@@ -29,9 +29,11 @@ export class ProtocolLayer {
 
 	transmit(packet : ProtocolPacket)
 	{
+		this.lowerLayer.transmit(packet);
 	}
 
 	receive(packet : ProtocolPacket)
 	{
+		this.upperLayer.transmit(packet);
 	}
 }
