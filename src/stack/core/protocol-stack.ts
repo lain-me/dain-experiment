@@ -8,8 +8,8 @@ export enum Placement {
 }
 
 export class ProtocolStack {
-	highestLayer : ProtocolLayer = null;
 	lowestLayer : ProtocolLayer = null;
+	highestLayer : ProtocolLayer = null;
 
 	constructor()
 	{
@@ -17,12 +17,12 @@ export class ProtocolStack {
 
 	handleTransmit(packet : ProtocolPacket)
 	{
-		if (this.highestLayer) this.highestLayer.transmit(packet);
+		if (this.lowestLayer) this.lowestLayer.transmit(packet);
 	}
 
 	handleReceive(packet : ProtocolPacket)
 	{
-		if (this.lowestLayer) this.lowestLayer.receive(packet);
+		if (this.highestLayer) this.highestLayer.receive(packet);
 	}
 
 	addLayer(layer : ProtocolLayer, placement : Placement = Placement.TOP, existing_layer : ProtocolLayer)
@@ -30,18 +30,18 @@ export class ProtocolStack {
 		layer.lowerLayer = null;
 		layer.upperLayer = null;
 
-		if (!this.highestLayer) {
-			this.highestLayer = layer;
+		if (!this.lowestLayer) {
 			this.lowestLayer = layer;
+			this.highestLayer = layer;
 
 			return;
 		}
 
 		switch (placement) {
 			case Placement.TOP:
-				this.highestLayer.upperLayer = layer;
-				layer.lowerLayer = this.highestLayer;
-				this.highestLayer = layer;
+				this.lowestLayer.upperLayer = layer;
+				layer.lowerLayer = this.lowestLayer;
+				this.lowestLayer = layer;
 
 				break;
 
@@ -51,7 +51,7 @@ export class ProtocolStack {
 				layer.lowerLayer = existing_layer;
 				existing_layer.upperLayer = layer;
 
-				if (existing_layer == this.highestLayer) this.highestLayer = layer;
+				if (existing_layer == this.lowestLayer) this.lowestLayer = layer;
 				else upperLayer.lowerLayer = layer;
 
 				break;
@@ -62,7 +62,7 @@ export class ProtocolStack {
 				layer.lowerLayer = lowerLayer;
 				existing_layer.lowerLayer = layer;
 
-				if (existing_layer == this.lowestLayer) this.lowestLayer = layer;
+				if (existing_layer == this.highestLayer) this.highestLayer = layer;
 				else lowerLayer.upperLayer = layer;
 
 				break;
@@ -71,18 +71,18 @@ export class ProtocolStack {
 
 	removeLayer(layer : ProtocolLayer)
 	{
-		if (layer == this.highestLayer) {
-			this.highestLayer = layer.lowerLayer;
-			if (this.highestLayer) this.highestLayer.upperLayer = null;
+		if (layer == this.lowestLayer) {
+			this.lowestLayer = layer.lowerLayer;
+			if (this.lowestLayer) this.lowestLayer.upperLayer = null;
 		}
 		else {
 			layer.upperLayer.lowerLayer = layer.lowerLayer;
 		}
 
 		layer.lowerLayer = null;
-		if (layer == this.lowestLayer) {
-			this.lowestLayer = layer.upperLayer;
-			if (this.lowestLayer) this.lowestLayer.lowerLayer = null;
+		if (layer == this.highestLayer) {
+			this.highestLayer = layer.upperLayer;
+			if (this.highestLayer) this.highestLayer.lowerLayer = null;
 		}
 		else {
 			layer.lowerLayer.upperLayer = layer.upperLayer;

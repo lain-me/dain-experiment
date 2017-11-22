@@ -1,6 +1,18 @@
 version: '3'
 
 services:
+   transpiler:
+      image: node:8.9.0-alpine
+      container_name: tsc
+      working_dir: /app
+      volumes:
+         - .:/app            # share your code with the containers
+         - node_modules:/app/node_modules
+         - dist:/app/dist
+      # typescript should watch the src directory
+      entrypoint: sh
+      command: -c "npm i -g typescript; npm i; npm run compile"
+
    web1:
       image: node:8.9.0-alpine
       container_name: express-container1
@@ -48,18 +60,6 @@ services:
       environment:
          USER: user3
          FORCE_COLOR: 1
-
-   transpiler:
-      image: node:8.9.0-alpine
-      container_name: tsc
-      working_dir: /app
-      volumes:
-         - .:/app            # share your code with the containers
-         - node_modules:/app/node_modules
-         - dist:/app/dist
-      # typescript should watch the src directory
-      entrypoint: sh
-      command: -c "npm i -g typescript; npm i; npm run compile"
 
    mongodb:
       image: mongo
