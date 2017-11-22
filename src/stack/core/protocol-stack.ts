@@ -25,7 +25,7 @@ export class ProtocolStack {
 		if (this.highestLayer) this.highestLayer.receive(packet);
 	}
 
-	addLayer(layer : ProtocolLayer, placement : Placement = Placement.TOP, existing_layer : ProtocolLayer)
+	addLayer(layer : ProtocolLayer, placement : Placement = Placement.TOP, existing_layer : ProtocolLayer = null)
 	{
 		layer.lowerLayer = null;
 		layer.upperLayer = null;
