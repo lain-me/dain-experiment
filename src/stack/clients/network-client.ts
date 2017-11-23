@@ -1,21 +1,21 @@
 import { ProtocolStack } from '../core/protocol-stack';
-import { TcpClient } from './tcp-client';
+import { TcpSocket } from './tcp-socket';
 import { GenericPacket } from '../packets';
 
 export class NetworkClient {
-	tcp_client : TcpClient;
+	tcp_socket : TcpSocket;
 
 	constructor(private stack : ProtocolStack)
 	{
-		this.initTcpClient();
+		this.initNetworkClient();
 	}
 
-	initTcpClient()
+	initNetworkClient()
 	{
-		this.tcp_client = new TcpClient();
-		this.tcp_client.connection();
+		this.tcp_socket = new TcpSocket();
+		this.tcp_socket.connection();
 
-		this.tcp_client.client.addListener('data', (data) => {
+		this.tcp_socket.rawSocket.addListener('data', (data) => {
 			// io_server.emit('chat message', data.toString());
 			let packet : GenericPacket = new GenericPacket();
 			packet.unchanged_msg = data.toString();
@@ -27,7 +27,7 @@ export class NetworkClient {
 	{
 		console.log('NetworkClient receive');
 
-		this.tcp_client.client.write(msg);
+		this.tcp_socket.rawSocket.write(msg);
 	}
 
 }

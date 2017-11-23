@@ -17,16 +17,12 @@ const url = 'mongodb://mongodb/';
 let sockets = {};
 let server = net.createServer((socket) => {
 	socket.on('close', () => {
-		console.log(chalk.bgCyan('22222222222'));
 		delete sockets[socket.remoteAddress];
 	});
 
 	socket.on('data', data => {
-		console.log(chalk.bgCyan('33333333333'));
 		_.each(sockets, (s, address) => {
-			if (socket.remoteAddress != address) {
-				s.write(data);
-			}
+			s.write(data);
 		});
 	});
 });

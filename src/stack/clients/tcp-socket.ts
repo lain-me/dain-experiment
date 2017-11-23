@@ -7,18 +7,18 @@ http://www.hacksparrow.com/tcp-socket-programming-in-node-js.html.) */
 import * as net from 'net';
 
 
-export class TcpClient {
-	get client() : net.Socket
+export class TcpSocket {
+	get rawSocket() : net.Socket
 	{
-		return this._client;
+		return this._rawSocket;
 	}
 
-	set client(value : net.Socket)
+	set rawSocket(value : net.Socket)
 	{
-		this._client = value;
+		this._rawSocket = value;
 	}
 
-	private _client : net.Socket;
+	private _rawSocket : net.Socket;
 	private count = 0;
 
 	constructor()
@@ -27,23 +27,23 @@ export class TcpClient {
 
 	establishSocket()
 	{
-		this.client = new net.Socket();
+		this.rawSocket = new net.Socket();
 		this.count = 1;
 
-		this.client.connect(13337, 'tcpserver', () => {
+		this.rawSocket.connect(13337, 'tcpserver', () => {
 			console.log('Connected');
 		});
 
-		this.client.on('data', (data) => {
+		this.rawSocket.on('data', (data) => {
 			console.log('Received: ' + data);
 			// this.client.destroy(); // kill this.client after server's response
 		});
 
-		this.client.on('error', (err) => {
+		this.rawSocket.on('error', (err) => {
 			console.log(err);
 		});
 
-		this.client.on('close', () => {
+		this.rawSocket.on('close', () => {
 			console.log('Connection closed');
 		});
 	}
@@ -57,7 +57,7 @@ export class TcpClient {
 	destroySocket()
 	{
 		this.count = 0;
-		this.client.destroy();
+		this.rawSocket.destroy();
 	}
 
 	disconnection()
