@@ -28,5 +28,8 @@ export class App {
 		this.stack.addLayer(new StorageLayer(this, this.network_client));
 		this.stack.addLayer(new EncryptionLayer(this));
 		this.stack.addLayer(new DataLayer(this, this.application_client));
+
+		// console.log('Highest layer: ' + this.stack.highestLayer.constructor.name);
+		// console.log('Lowest layer: ' + this.stack.lowestLayer.constructor.name);
 	}
 }

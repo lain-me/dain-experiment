@@ -14,13 +14,13 @@ export class DataLayer extends ProtocolLayer {
 
 	receive(packet : GenericPacket)
 	{
-		super.receive(packet);
+		this.application.receive(packet.unchanged_msg);
 		console.log('DataLayer receive');
 	}
 
 	transmit(packet : GenericPacket)
 	{
+		super.transmit(packet);
 		console.log('DataLayer transmit');
-		this.application.receive(packet.unchanged_msg);
 	}
 }

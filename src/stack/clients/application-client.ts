@@ -37,14 +37,11 @@ export class ApplicationClient {
 			});
 
 			socket.on('chat message', (msg) => {
-				console.log('message from user ' + chalk.bgBlueBright(process.env.USER) + ' : ' + msg);
+				console.log('\r\n\r\nmessage from user ' + chalk.bgBlueBright(process.env.USER) + ' : ' + msg);
 
 				let packet : GenericPacket = new GenericPacket();
 				packet.unchanged_msg = msg;
 				this.stack.handleTransmit(packet);
-
-
-				this.io_server.emit('chat message', msg);
 			});
 		});
 
@@ -56,6 +53,6 @@ export class ApplicationClient {
 	receive(msg : any)
 	{
 		console.log('ApplicationClient receive');
-		this.io_server.emit(msg);
+		this.io_server.emit('chat message', msg);
 	}
 }

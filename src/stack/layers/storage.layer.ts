@@ -1,6 +1,5 @@
 import { ProtocolLayer } from '../core/protocol-layer';
 import { App } from '../app';
-import { TcpClient } from '../clients/tcp-client';
 import { GenericPacket } from '../packets';
 import { NetworkClient } from '../clients/network-client';
 
