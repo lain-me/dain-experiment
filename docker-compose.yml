@@ -13,11 +13,13 @@ services:
       entrypoint: sh
       command: -c "npm i -g typescript; npm i; npm run compile"
 
-   server:
+   tcpserver:
       image: node:8.9.0-alpine
-      container_name: server
+      container_name: tcpserver
       expose:
-         - 1337
+         - 13337
+      ports:
+        - 13337:13337
       volumes:
          - .:/app            # share your code with the containers
          - dist:/app/dist
@@ -41,10 +43,10 @@ services:
          - ./src/template:/app/template
       working_dir: /app
       links:
-         - mongodb
+         - tcpserver
       command: npm start
       depends_on:
-         - server
+         - tcpserver
       environment:
          USER: user1
          FORCE_COLOR: 1
@@ -59,8 +61,10 @@ services:
          - dist:/app/dist
          - ./src/template:/app/template
       working_dir: /app
+      links:
+         - tcpserver
       depends_on:
-         - server
+         - tcpserver
       command: npm start
       environment:
          USER: user2
@@ -76,8 +80,10 @@ services:
          - dist:/app/dist
          - ./src/template:/app/template
       working_dir: /app
+      links:
+         - tcpserver
       depends_on:
-         - server
+         - tcpserver
       command: npm start
       environment:
          USER: user3
