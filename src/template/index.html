@@ -14,7 +14,7 @@
 		}
 
 		form {
-			background: #000;
+			background: lightgray;
 			padding: 3px;
 			position: fixed;
 			bottom: 0;
@@ -30,7 +30,9 @@
 
 		form button {
 			width: 9%;
-			background: rgb(130, 224, 255);
+			background: darkgray;
+			cursor: pointer;
+			color: white;
 			border: none;
 			padding: 10px;
 		}
@@ -57,8 +59,24 @@
 	<button>Send</button>
 </form>
 <script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
 <script>
-	var socket = io();
+	$(function () {
+		var socket = io();
+		$('form').submit(function () {
+			var message = $('#m').val();
+			if (message)
+				socket.emit('chat message', message);
+			$('#m').val('');
+			return false;
+		});
+		socket.on('chat message', function (msg) {
+			var timestamp = moment().format("HH:mm:ss ");
+			var el_timestamp = $('<span style="color: darkgrey">').text(timestamp);
+			$('#messages').append(($('<li>').append(el_timestamp)).append(msg));
+		});
+	});
 </script>
 </body>
 </html>
