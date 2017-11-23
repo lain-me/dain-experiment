@@ -19,10 +19,16 @@ export class TcpClient {
 	}
 
 	private _client : net.Socket;
+	private count = 0;
 
 	constructor()
 	{
+	}
+
+	establishSocket()
+	{
 		this.client = new net.Socket();
+		this.count = 1;
 
 		this.client.connect(13337, 'tcpserver', () => {
 			console.log('Connected');
@@ -40,7 +46,24 @@ export class TcpClient {
 		this.client.on('close', () => {
 			console.log('Connection closed');
 		});
+	}
 
+	connection()
+	{
+		if (this.count <= 0) this.establishSocket();
+		else this.count++;
+	}
+
+	destroySocket()
+	{
+		this.count = 0;
+		this.client.destroy();
+	}
+
+	disconnection()
+	{
+		this.count--;
+		if (this.count <= 0) this.destroySocket();
 	}
 }
 

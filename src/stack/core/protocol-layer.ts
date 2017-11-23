@@ -34,6 +34,6 @@ export class ProtocolLayer {
 
 	receive(packet : ProtocolPacket)
 	{
-		this.upperLayer.transmit(packet);
+		this.upperLayer.receive(packet);
 	}
 }

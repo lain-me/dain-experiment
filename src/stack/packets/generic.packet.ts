@@ -6,6 +6,7 @@ export class GenericPacket extends ProtocolPacket {
 	packet_type : PacketType = PacketType.NONE;
 	creator_uid : any;
 	packet_sign : any;
+	unchanged_msg : any;
 
 	constructor()
 	{

@@ -1,11 +1,28 @@
 import { ProtocolLayer } from '../core/protocol-layer';
 import { App } from '../app';
+import { TcpClient } from '../clients/tcp-client';
+import { GenericPacket } from '../packets';
+import { NetworkClient } from '../clients/network-client';
 
-export class Storage extends ProtocolLayer {
-	constructor(private app : App)
+export class StorageLayer extends ProtocolLayer {
+
+
+	constructor(private app : App, private network : NetworkClient)
 	{
 		super();
 
-		console.log('Storage layer is initialized for ' + app.config.env_name);
+		console.log('StorageLayer is initialized for ' + app.config.env_name);
+	}
+
+	receive(packet : GenericPacket)
+	{
+		super.receive(packet);
+		console.log('StorageLayer receive');
+	}
+
+	transmit(packet : GenericPacket)
+	{
+		console.log('StorageLayer transmit');
+		this.network.send(packet.unchanged_msg);
 	}
 }

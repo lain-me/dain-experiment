@@ -1,10 +1,14 @@
 import { ProtocolStack } from './core/protocol-stack';
-import { Storage, Encryption, Data } from './layers';
+import { StorageLayer, EncryptionLayer, DataLayer } from './layers';
 import { Config } from './config';
+import { NetworkClient } from './clients/network-client';
+import { ApplicationClient } from './clients/application-client';
 
 export class App {
-	private stack : ProtocolStack = null;
+	public stack : ProtocolStack = null;
 	public config : Config = null;
+	public network_client : NetworkClient;
+	public application_client : ApplicationClient;
 
 	constructor(params : { name : string })
 	{
@@ -18,8 +22,11 @@ export class App {
 	{
 		this.stack = new ProtocolStack();
 
-		this.stack.addLayer(new Storage(this));
-		this.stack.addLayer(new Encryption(this));
-		this.stack.addLayer(new Data(this));
+		this.network_client = new NetworkClient(this.stack);
+		this.application_client = new ApplicationClient(this.stack);
+
+		this.stack.addLayer(new StorageLayer(this, this.network_client));
+		this.stack.addLayer(new EncryptionLayer(this));
+		this.stack.addLayer(new DataLayer(this, this.application_client));
 	}
 }
