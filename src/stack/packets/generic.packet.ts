@@ -11,5 +11,7 @@ export class GenericPacket extends ProtocolPacket {
 	constructor()
 	{
 		super();
+
+		this.packet_type = PacketType.NONE;
 	}
 }

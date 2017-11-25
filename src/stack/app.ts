@@ -1,8 +1,9 @@
 import { ProtocolStack } from './core/protocol-stack';
-import { StorageLayer, EncryptionLayer, DataLayer } from './layers';
 import { Config } from './config';
-import { NetworkClient } from './clients/network-client';
-import { ApplicationClient } from './clients/application-client';
+
+import { StorageLayer, EncryptionLayer, DataLayer } from './layers';
+import { NetworkClient, ApplicationClient } from './clients';
+
 
 export class App {
 	public stack : ProtocolStack = null;

@@ -1,8 +1,8 @@
 import { ProtocolLayer } from '../core/protocol-layer';
+
 import { App } from '../app';
-import { ApplicationClient } from '../clients/application-client';
-import { ProtocolPacket } from '../core/protocol-packet';
 import { GenericPacket } from '../packets';
+import { ApplicationClient } from '../clients';
 
 export class DataLayer extends ProtocolLayer {
 	constructor(private app : App, private application : ApplicationClient)

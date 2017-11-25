@@ -40,6 +40,7 @@ services:
       volumes:
          - .:/app            # share your code with the containers
          - dist:/app/dist
+         - temp:/app/temp
          - ./src/template:/app/template
       working_dir: /app
       links:
@@ -59,6 +60,7 @@ services:
       volumes:
          - .:/app            # share your code with the containers
          - dist:/app/dist
+         - temp:/app/temp
          - ./src/template:/app/template
       working_dir: /app
       links:
@@ -78,6 +80,7 @@ services:
       volumes:
          - .:/app            # share your code with the containers
          - dist:/app/dist
+         - temp:/app/temp
          - ./src/template:/app/template
       working_dir: /app
       links:
@@ -111,3 +114,4 @@ services:
 volumes:
    node_modules:
    dist:
+   temp:

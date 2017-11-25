@@ -1,7 +1,8 @@
 import { ProtocolLayer } from '../core/protocol-layer';
+
 import { App } from '../app';
 import { GenericPacket } from '../packets';
-import { NetworkClient } from '../clients/network-client';
+import { NetworkClient } from '../clients';
 
 export class StorageLayer extends ProtocolLayer {
 
