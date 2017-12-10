@@ -39,6 +39,7 @@ services:
          - 3001:3000
       volumes:
          - .:/app            # share your code with the containers
+         - node_modules:/app/node_modules
          - dist:/app/dist
          - temp:/app/temp
          - ./src/template:/app/template
@@ -59,6 +60,7 @@ services:
          - 3002:3000
       volumes:
          - .:/app            # share your code with the containers
+         - node_modules:/app/node_modules
          - dist:/app/dist
          - temp:/app/temp
          - ./src/template:/app/template
@@ -79,6 +81,7 @@ services:
          - 3003:3000
       volumes:
          - .:/app            # share your code with the containers
+         - node_modules:/app/node_modules
          - dist:/app/dist
          - temp:/app/temp
          - ./src/template:/app/template
