@@ -26,8 +26,9 @@ export class EncryptionLayer extends ProtocolLayer {
 		let pri_file = resolve('temp/' + this.app.config.env_name + '.pem');
 		let pem = null;
 		try {
-		    pem = fs.readFileSync(pri_file, 'utf8');
-		} catch (e){}
+			pem = fs.readFileSync(pri_file, 'utf8');
+		} catch (e) {
+		}
 
 		if (pem) {
 			privateKey = pki.privateKeyFromPem(pem);
