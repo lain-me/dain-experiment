@@ -11,6 +11,7 @@ services:
          - dist:/app/dist
       # typescript should watch the src directory
       entrypoint: sh
+      restart: on-failure
       command: -c "npm i -g typescript; npm i; npm run compile"
 
    tcpserver:
@@ -28,6 +29,7 @@ services:
       links:
          - mongodb
       command: npm run server
+      restart: on-failure
       environment:
          USER: user1
          FORCE_COLOR: 1
@@ -49,6 +51,7 @@ services:
       command: npm start
       depends_on:
          - tcpserver
+      restart: on-failure
       environment:
          USER: user1
          FORCE_COLOR: 1
@@ -70,6 +73,7 @@ services:
       depends_on:
          - tcpserver
       command: npm start
+      restart: on-failure
       environment:
          USER: user2
          FORCE_COLOR: 1
@@ -91,6 +95,7 @@ services:
       depends_on:
          - tcpserver
       command: npm start
+      restart: on-failure
       environment:
          USER: user3
          FORCE_COLOR: 1
@@ -110,6 +115,7 @@ services:
          - mongodb
       ports:
          - 7000:8081
+      restart: on-failure
       environment:
          - ME_CONFIG_MONGODB_SERVER=mongodb
          - ME_CONFIG_OPTIONS_EDITORTHEME=ambiance
