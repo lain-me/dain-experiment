@@ -15,6 +15,15 @@ export class ProtocolStack {
 	{
 	}
 
+	init()
+	{
+		let layer = this.lowestLayer;
+		while (layer) {
+			layer.init();
+			layer = layer.upperLayer;
+		}
+	}
+
 	handleTransmit(packet : ProtocolPacket)
 	{
 		if (this.highestLayer) this.highestLayer.transmit(packet);

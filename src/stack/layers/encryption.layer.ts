@@ -14,12 +14,18 @@ export class EncryptionLayer extends ProtocolLayer {
 	{
 		super();
 
-		this.initKeys();
 		console.log('EncryptionLayer is initialized for ' + app.config.env_name);
+	}
+
+	init()
+	{
+		super.init();
+		this.initKeys();
 	}
 
 	initKeys()
 	{
+		console.log('Starting key initialization');
 		let privateKey : pki.Key = null;
 		let publicKey : pki.Key = null;
 

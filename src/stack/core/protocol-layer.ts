@@ -5,6 +5,10 @@ export class ProtocolLayer {
 	{
 	}
 
+	init()
+	{
+	}
+
 	private _upperLayer : ProtocolLayer = null;
 	public get upperLayer()
 	{
