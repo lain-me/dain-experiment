@@ -12,6 +12,8 @@ import { MongoClient } from 'mongodb';
 import chalk from 'chalk';
 import * as _ from 'lodash';
 
+import { SocketMessage, SocketEncrypt, SocketDecrypt } from '../common';
+
 const url = 'mongodb://mongodb/';
 
 let sockets = {};

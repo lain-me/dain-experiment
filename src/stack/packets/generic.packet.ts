@@ -1,7 +1,8 @@
 import { ProtocolPacket } from '../core/protocol-packet';
 import { PacketType } from './packet.enum';
+import { Serializer } from '../serializer/serializer';
 
-export class GenericPacket extends ProtocolPacket {
+export class GenericPacket extends ProtocolPacket implements Serializer {
 
 	packet_type : PacketType = PacketType.NONE;
 	creator_uid : any;
@@ -13,5 +14,13 @@ export class GenericPacket extends ProtocolPacket {
 		super();
 
 		this.packet_type = PacketType.NONE;
+	}
+
+	serialize()
+	{
+	}
+
+	deserialize()
+	{
 	}
 }
