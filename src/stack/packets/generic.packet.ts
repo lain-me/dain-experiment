@@ -1,10 +1,12 @@
 import { ProtocolPacket } from '../core/protocol-packet';
-import { PacketType } from './packet.enum';
-import { Serializer } from '../serializer/serializer';
 
-export class GenericPacket extends ProtocolPacket implements Serializer {
+import { PacketHeader } from './packet-header.class';
 
-	packet_type : PacketType = PacketType.NONE;
+import { JsonSerializer } from '../serializer/json-serializer.interface';
+
+export class GenericPacket extends ProtocolPacket implements JsonSerializer {
+
+	packet_header : PacketHeader = new PacketHeader();
 	creator_uid : any;
 	packet_sign : any;
 	unchanged_msg : any;
@@ -12,15 +14,14 @@ export class GenericPacket extends ProtocolPacket implements Serializer {
 	constructor()
 	{
 		super();
-
-		this.packet_type = PacketType.NONE;
 	}
 
-	serialize()
+	serialize() : object
 	{
+		return {};
 	}
 
-	deserialize()
+	deserialize(o : any)
 	{
 	}
 }

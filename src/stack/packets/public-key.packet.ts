@@ -1,5 +1,5 @@
 import { GenericPacket } from './generic.packet';
-import { PacketType } from './packet.enum';
+import { PacketType } from './packet-type.enum';
 
 export class PublicKeyPacket extends GenericPacket {
 	key_owner_uid : any;
@@ -10,6 +10,6 @@ export class PublicKeyPacket extends GenericPacket {
 	{
 		super();
 
-		this.packet_type = PacketType.PUB_KEY;
+		this.packet_header.type = PacketType.PUB_KEY;
 	}
 }

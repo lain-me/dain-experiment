@@ -1,5 +1,5 @@
 import { GenericPacket } from './generic.packet';
-import { PacketType } from './packet.enum';
+import { PacketType } from './packet-type.enum';
 
 export class GroupKeyPacket extends GenericPacket {
 	group_id : any;
@@ -9,9 +9,10 @@ export class GroupKeyPacket extends GenericPacket {
 	enc_symm_key : any;
 	symm_key : any;
 
-	constructor(){
+	constructor()
+	{
 		super();
 
-		this.packet_type = PacketType.GROUP_KEY;
+		this.packet_header.type = PacketType.GROUP_KEY;
 	}
 }

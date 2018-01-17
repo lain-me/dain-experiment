@@ -1,5 +1,5 @@
 import { GenericPacket } from './generic.packet';
-import { PacketType } from './packet.enum';
+import { PacketType } from './packet-type.enum';
 
 export class DataPacket extends GenericPacket {
 	data_id : any;
@@ -9,6 +9,6 @@ export class DataPacket extends GenericPacket {
 	constructor()
 	{
 		super();
-		this.packet_type = PacketType.DATA;
+		this.packet_header.type = PacketType.DATA;
 	}
 }

@@ -1,7 +1,7 @@
 import { Serializer } from './serializer.interface';
 
 export interface JsonSerializer extends Serializer {
-	serialize() : Object;
+	serialize() : object;
 
-	deserialize(_ : Object);
+	deserialize(_ : object);
 }
