@@ -23,6 +23,6 @@ export class StorageLayer extends ProtocolLayer {
 	transmit(packet : GenericPacket)
 	{
 		console.log('StorageLayer transmit');
-		this.network.send(packet.unchanged_msg);
+		this.network.send(packet.serialize());
 	}
 }

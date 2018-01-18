@@ -8,7 +8,7 @@ export interface PacketHeaderType {
 	role : PacketRole
 }
 
-export class PacketHeader implements JsonSerializer {
+export class PacketHeader {
 
 	public _header : PacketHeaderType = {
 		role : PacketRole.NONE,
@@ -40,14 +40,15 @@ export class PacketHeader implements JsonSerializer {
 		return this.header.role;
 	}
 
-	serialize() : PacketHeaderType
+	toObject() : PacketHeaderType
 	{
 		return {role : this.header.role, type : this.header.type};
 	}
 
-	deserialize(object : PacketHeaderType)
+	fromObject(object : PacketHeaderType)
 	{
 		this.header.role = object.role;
 		this.header.type = object.type;
 	}
+
 }

@@ -1,6 +1,6 @@
 import { ProtocolLayer } from '../core/protocol-layer';
 import { App } from '../app';
-import { GenericPacket, PublicKeyPacket } from '../packets';
+import { GenericPacket, PacketRole, PublicKeyPacket } from '../packets';
 
 import { pki, md } from 'node-forge';
 import { resolve } from 'path';
@@ -66,11 +66,13 @@ export class EncryptionLayer extends ProtocolLayer {
 
 	publishKey()
 	{
-		let packet : PublicKeyPacket = new PublicKeyPacket();
-
-		packet.creator_uid = this.uid;
-		packet.key_owner_uid = this.uid;
-		packet.public_key = this.key.publicKey;
+		let packet : PublicKeyPacket = new PublicKeyPacket(
+			{
+				role          : PacketRole.PUBLISH,
+				creator_uid   : this.uid,
+				key_owner_uid : this.uid,
+				public_key    : this.key.publicKey
+			});
 
 		this.transmit(packet);
 	}
