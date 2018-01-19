@@ -9,48 +9,70 @@ Save the following server in example.js:
 
 import * as net from 'net';
 import { MongoClient } from 'mongodb';
+
+// import * as _ from 'lodash';
 import chalk from 'chalk';
-import * as _ from 'lodash';
 
-import { SocketMessage, SocketEncrypt, SocketDecrypt } from '../common';
+import { SocketDecrypt } from '../common';
+import { GenericPacket } from '../stack/packets';
+import { PacketParser } from '../common/packet-parser';
+import { PacketDecisionMaker } from './packet-decision-maker';
 
-const url = 'mongodb://mongodb/';
+export class TcpServer {
+	url = 'mongodb://mongodb/';
+	sockets = {};
+	server : net.Server = null;
 
-let sockets = {};
-let server = net.createServer((socket) => {
-	socket.on('close', () => {
-		delete sockets[socket.remoteAddress];
-	});
+	constructor()
+	{
+	}
 
-	socket.on('data', data => {
-		_.each(sockets, (s, address) => {
-			s.write(data);
+	run()
+	{
+		this.server = net.createServer((socket) => {
+			socket.on('close', () => {
+				delete this.sockets[socket.remoteAddress];
+			});
+
+			socket.on('data', (data : string) => {
+				let message = SocketDecrypt.decrypt(data);
+				let packet : GenericPacket = PacketParser.messageToPacket(message.body);
+				PacketDecisionMaker.handle(message.id, packet, socket);
+
+				// _.each(this.sockets, (s, address) => {
+				// 	s.write(data);
+				// });
+			});
 		});
-	});
-});
 
-server.listen(13337, 'tcpserver');
+		this.server.listen(13337, 'tcpserver');
 
-server.on('connection', (socket) => {
-	console.log(chalk.bgBlackBright('TCP Server was connected by '), socket.remoteAddress);
-	sockets[socket.remoteAddress] = socket;
-});
+		this.server.on('connection',
+			(socket) => {
+				console.log(chalk.bgBlackBright('TCP Server was connected by '), socket.remoteAddress);
+				this.sockets               [socket.remoteAddress] = socket;
+			}
+		)
+		;
 
-server.on('close', () => {
-});
+		this.server.on('close', () => {
+		});
 
-server.on('error', (error) => {
-	console.log(error);
-	console.log(chalk.bgBlackBright(error.message));
-});
+		this.server.on('error', (error) => {
+			console.log(error);
+			console.log(chalk.bgBlackBright(error.message));
+		});
+	}
 
-let connect_mongodb = () => {
-	MongoClient.connect(url, (err, db) => {
-		if (err) {
-			console.log(err);
-		} else {
-			console.log('Connected correctly to server');
-			db.close();
-		}
-	});
-};
+	connect_mongodb()
+	{
+		MongoClient.connect(this.url, (err, db) => {
+			if (err) {
+				console.log(err);
+			} else {
+				console.log('Connected correctly to server');
+				db.close();
+			}
+		});
+	};
+}

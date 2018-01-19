@@ -9,17 +9,26 @@ export class PublicKeyPacket extends GenericPacket implements JsonSerializer {
 
 	constructor(params : any = {})
 	{
-		super({...params, type : PacketType.PUB_KEY});
+		super();
 
-		if (params.public_key) this.public_key = params.public_key;
-		if (params.key_owner_uid) this.key_owner_uid = params.key_owner_uid;
+		this.fromObject({...params, type : PacketType.PUB_KEY});
 	}
 
-	fromObject(o: any = {}){
+	fromObject(o : any = {})
+	{
 		super.fromObject(o);
 
 		if (o.public_key) this.public_key = o.public_key;
 		if (o.key_owner_uid) this.key_owner_uid = o.key_owner_uid;
+	}
+
+	toObject() : any
+	{
+		return {
+			...super.toObject(),
+			public_key    : this.public_key,
+			key_owner_uid : this.key_owner_uid
+		};
 	}
 
 	deserialize(json : string)

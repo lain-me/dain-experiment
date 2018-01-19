@@ -6,7 +6,7 @@
 	"scripts": {
 		"start": "nodemon dist/index.js -w dist/",
 		"compile": "tsc -w",
-		"server": "nodemon dist/server/tcp-server.js -w dist/server/"
+		"server": "nodemon dist/server/server-stratup.js -w dist/server/"
 	},
 	"author": "",
 	"license": "ISC",

@@ -6,7 +6,7 @@ export class DataPacket extends GenericPacket {
 	group_id : any;
 	enc_data : any;
 
-	constructor()
+	constructor(params : any = {})
 	{
 		super();
 		this.packet_header.type = PacketType.DATA;

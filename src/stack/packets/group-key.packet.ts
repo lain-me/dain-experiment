@@ -9,7 +9,7 @@ export class GroupKeyPacket extends GenericPacket {
 	enc_symm_key : any;
 	symm_key : any;
 
-	constructor()
+	constructor(params : any = {})
 	{
 		super();
 
