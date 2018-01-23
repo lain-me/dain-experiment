@@ -1,5 +1,4 @@
 import * as net from 'net';
-import { MongoClient } from 'mongodb';
 
 // import * as _ from 'lodash';
 import chalk from 'chalk';
@@ -8,9 +7,9 @@ import { SocketDecrypt } from '../common';
 import { GenericPacket } from '../stack/packets';
 import { PacketParser } from '../common/packet-parser';
 import { PacketDecisionMaker } from './handlers';
+import { MongoProxy } from './mongo-proxy';
 
 export class TcpServer {
-	url = 'mongodb://mongodb/';
 	sockets = {};
 	server : net.Server = null;
 
@@ -20,6 +19,8 @@ export class TcpServer {
 
 	run()
 	{
+		let mongo = new MongoProxy();
+
 		this.server = net.createServer((socket) => {
 			socket.on('close', () => {
 				delete this.sockets[socket.remoteAddress];
@@ -28,7 +29,7 @@ export class TcpServer {
 			socket.on('data', (data : string) => {
 				let message = SocketDecrypt.decrypt(data);
 				let packet : GenericPacket = PacketParser.messageToPacket(message.body);
-				PacketDecisionMaker.handle(message.id, packet, socket);
+				PacketDecisionMaker.handle({uid : message.id, packet, socket, mongo});
 
 				// _.each(this.sockets, (s, address) => {
 				// 	s.write(data);
@@ -43,8 +44,7 @@ export class TcpServer {
 				console.log(chalk.bgBlackBright('TCP Server was connected by '), socket.remoteAddress);
 				this.sockets[socket.remoteAddress] = socket;
 			}
-		)
-		;
+		);
 
 		this.server.on('close', () => {
 		});
@@ -54,16 +54,4 @@ export class TcpServer {
 			console.log(chalk.bgBlackBright(error.message));
 		});
 	}
-
-	connect_mongodb()
-	{
-		MongoClient.connect(this.url, (err, db) => {
-			if (err) {
-				console.log(err);
-			} else {
-				console.log('Connected correctly to server');
-				db.close();
-			}
-		});
-	};
 }

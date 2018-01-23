@@ -1,9 +1,8 @@
-import * as net from 'net';
-
 import { GroupKeyPacket } from '../../stack/packets';
+import { HandlerParams } from './handler-params.interface';
 
 export class GroupKeyPacketHandler {
-	static handle(uid : number, packet : GroupKeyPacket, socket : net.Socket)
+	static handle(packet : GroupKeyPacket, params : HandlerParams)
 	{
 	}
 }

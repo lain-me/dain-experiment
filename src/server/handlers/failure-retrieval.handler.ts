@@ -1,7 +1,7 @@
-import * as net from 'net';
+import { HandlerParams } from './handler-params.interface';
 
 export class FailureRetrievalHandler {
-	static handle(uid : number, socket : net.Socket, message : String)
+	static handle(message : string, params : HandlerParams)
 	{
 	}
 }

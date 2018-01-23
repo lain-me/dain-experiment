@@ -1,22 +1,22 @@
-import * as net from 'net';
+import { DataPacket, GroupKeyPacket, PacketType, PublicKeyPacket } from '../../stack/packets';
 
-import { DataPacket, GenericPacket, GroupKeyPacket, PacketType, PublicKeyPacket } from '../../stack/packets';
+import { HandlerParams } from './handler-params.interface';
 import { GroupKeyPacketHandler } from './group-key-packet.handler';
 import { DataPacketHandler } from './data-packet.handler';
 import { PublicKeyPacketHandler } from './public-key-packet.handler';
 
 export class PacketDecisionMaker {
-	static handle(uid : number, packet : GenericPacket, socket : net.Socket)
+	static handle(params : HandlerParams = null)
 	{
-		switch (packet.packet_header.type) {
+		switch (params.packet.packet_header.type) {
 			case PacketType.GROUP_KEY:
-				GroupKeyPacketHandler.handle(uid, <GroupKeyPacket>packet, socket);
+				GroupKeyPacketHandler.handle(<GroupKeyPacket>params.packet, params);
 				break;
 			case PacketType.DATA:
-				DataPacketHandler.handle(uid, <DataPacket>packet, socket);
+				DataPacketHandler.handle(<DataPacket>params.packet, params);
 				break;
 			case PacketType.PUB_KEY:
-				PublicKeyPacketHandler.handle(uid, <PublicKeyPacket>packet, socket);
+				PublicKeyPacketHandler.handle(<PublicKeyPacket>params.packet, params);
 				break;
 			default:
 				break;

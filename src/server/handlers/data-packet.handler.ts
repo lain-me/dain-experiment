@@ -1,9 +1,8 @@
-import * as net from 'net';
-
 import { DataPacket } from '../../stack/packets';
+import { HandlerParams } from './handler-params.interface';
 
 export class DataPacketHandler {
-	static handle(uid : number, packet : DataPacket, socket : net.Socket)
+	static handle(packet : DataPacket, params : HandlerParams)
 	{
 	}
 }
