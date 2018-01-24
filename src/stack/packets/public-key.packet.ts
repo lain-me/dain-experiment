@@ -45,6 +45,6 @@ export class PublicKeyPacket extends GenericPacket implements JsonSerializer {
 	{
 		let result = super.toObject();
 
-		return JSON.stringify({...result, key_owner_uid : this.key_owner_uid, public_key : this.public_key});
+		return JSON.stringify(this.toObject());
 	}
 }

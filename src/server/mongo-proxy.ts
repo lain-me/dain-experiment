@@ -1,11 +1,11 @@
+import { Observable } from 'rxjs';
 import { InsertOneWriteOpResult, MongoClient, MongoError } from 'mongodb';
-import { PublicKeyPacket } from '../stack/packets';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
+
+import { DataPacket, GroupKeyPacket, PublicKeyPacket } from '../stack/packets';
 
 const publicKeyTable = 'PublicKeyCollection';
-const groupKeyTable = 'PublicKeyCollection';
-const dataTable = 'PublicKeyCollection';
+const groupKeyTable = 'GroupKeyCollection';
+const dataTable = 'DataCollection';
 
 export class MongoProxy {
 	url = 'mongodb://mongodb/';
@@ -37,6 +37,30 @@ export class MongoProxy {
 	getPublicKey(packet : PublicKeyPacket) : Observable<any | null>
 	{
 		let search = {'key_owner_uid' : packet.key_owner_uid};
-		return Observable.fromPromise(this.db.findOne(search));
+		return Observable.fromPromise(this.db.collection(publicKeyTable).findOne(search));
+	}
+
+	insertData(packet : DataPacket) : Observable<InsertOneWriteOpResult>
+	{
+		let data = packet.toObject();
+		return Observable.fromPromise(this.db.collection(dataTable).insertOne(data));
+	}
+
+	getData(packet : DataPacket) : Observable<any | null>
+	{
+		let search = {'data_id' : packet.data_id};
+		return Observable.fromPromise(this.db.collection(dataTable).findOne(search));
+	}
+
+	insertGroupKey(packet : GroupKeyPacket) : Observable<InsertOneWriteOpResult>
+	{
+		let data = packet.toObject();
+		return Observable.fromPromise(this.db.collection(groupKeyTable).insertOne(data));
+	}
+
+	getGroupKey(packet : GroupKeyPacket) : Observable<any | null>
+	{
+		let search = {'group_id' : packet.group_id, 'permission_uid' : packet.permission_uid};
+		return Observable.fromPromise(this.db.collection(groupKeyTable).findOne(search));
 	}
 }
