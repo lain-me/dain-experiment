@@ -1,32 +1,46 @@
-import { PacketRole, PublicKeyPacket } from '../../stack/packets';
+import { Subject, Observable } from 'rxjs';
 
-import { SocketMessage, SocketEncrypt } from '../../common';
-import { HandlerParams } from './handler-params.interface';
+import { MongoProxy } from '../mongo-proxy';
+import { GenericPacket, PacketRole, PublicKeyPacket } from '../../stack/packets';
 
 export class PublicKeyPacketHandler {
-	static handle(packet : PublicKeyPacket, params : HandlerParams)
+	constructor(private mongo : MongoProxy)
 	{
+	}
+
+	handle(packet : PublicKeyPacket) : Observable<GenericPacket>
+	{
+		let result = new Subject<GenericPacket>();
+
 		switch (packet.packet_header.role) {
 			case PacketRole.PUBLISH:
-				params.mongo.insertPublicKey(packet).subscribe(res => {
+				this.mongo.insertPublicKey(packet).subscribe(res => {
+					let data = packet.toObject();
+					data.public_key = null;
+					data.packet_header.role = PacketRole.SUCCESS;
+
+					let reply : PublicKeyPacket = new PublicKeyPacket(data);
+					result.next(reply);
+					result.complete();
+
 				}, error => {
-					console.log(error);
+					let data = packet.toObject();
+					result.error(error);
 				});
 				break;
 			case PacketRole.REQUEST:
-				params.mongo.getPublicKey(packet).subscribe(data => {
-					let socket_msg : SocketMessage = {
-						id   : params.uid,
-						body : JSON.stringify(data)
-					};
+				this.mongo.getPublicKey(packet).subscribe(data => {
+					data.packet_header.role = PacketRole.SUCCESS;
 
-					let msg = SocketEncrypt.encrypt(socket_msg);
-
-					params.socket.write(msg);
+					let reply : PublicKeyPacket = new PublicKeyPacket(data);
+					result.next(reply);
+					result.complete();
 				}, error => {
 					console.log(error);
 				});
 				break;
 		}
+
+		return result;
 	}
 }

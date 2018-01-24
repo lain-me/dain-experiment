@@ -1,8 +1,17 @@
-import { DataPacket } from '../../stack/packets';
-import { HandlerParams } from './handler-params.interface';
+import { Observable, Subject } from 'rxjs';
+
+import { MongoProxy } from '../mongo-proxy';
+import { DataPacket, GenericPacket } from '../../stack/packets';
 
 export class DataPacketHandler {
-	static handle(packet : DataPacket, params : HandlerParams)
+	constructor(private mongo : MongoProxy)
 	{
+	}
+
+	handle(packet : DataPacket) : Observable<GenericPacket>
+	{
+		let result = new Subject<GenericPacket>();
+
+		return result;
 	}
 }

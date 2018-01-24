@@ -3,33 +3,38 @@ import * as net from 'net';
 // import * as _ from 'lodash';
 import chalk from 'chalk';
 
-import { SocketDecrypt } from '../common';
-import { GenericPacket } from '../stack/packets';
-import { PacketParser } from '../common/packet-parser';
 import { PacketDecisionMaker } from './handlers';
 import { MongoProxy } from './mongo-proxy';
+import { GenericPacket } from '../stack/packets';
+import { SocketHelper } from '../common/message';
 
 export class TcpServer {
 	sockets = {};
 	server : net.Server = null;
+	handler : PacketDecisionMaker = null;
 
 	constructor()
 	{
+		let mongo = new MongoProxy();
+		this.handler = new PacketDecisionMaker(mongo);
 	}
 
 	run()
 	{
-		let mongo = new MongoProxy();
-
 		this.server = net.createServer((socket) => {
 			socket.on('close', () => {
 				delete this.sockets[socket.remoteAddress];
 			});
 
 			socket.on('data', (data : string) => {
-				let message = SocketDecrypt.decrypt(data);
-				let packet : GenericPacket = PacketParser.messageToPacket(message.body);
-				PacketDecisionMaker.handle({uid : message.id, packet, socket, mongo});
+				let {id, packet} = SocketHelper.socketMessageToPacket(data);
+
+				this.handler.handle(packet)
+				.subscribe(
+					(reply : GenericPacket) => {
+						let msg = SocketHelper.packetToSocketMessage({id, packet : reply});
+						socket.write(msg);
+					});
 
 				// _.each(this.sockets, (s, address) => {
 				// 	s.write(data);

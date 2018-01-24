@@ -1,8 +1,17 @@
-import { GroupKeyPacket } from '../../stack/packets';
-import { HandlerParams } from './handler-params.interface';
+import { Observable, Subject } from 'rxjs';
+
+import { MongoProxy } from '../mongo-proxy';
+import { GenericPacket, GroupKeyPacket } from '../../stack/packets';
 
 export class GroupKeyPacketHandler {
-	static handle(packet : GroupKeyPacket, params : HandlerParams)
+	constructor(private mongo : MongoProxy)
 	{
+	}
+
+	handle(packet : GroupKeyPacket) : Observable<GenericPacket>
+	{
+		let result = new Subject<GenericPacket>();
+
+		return result;
 	}
 }
