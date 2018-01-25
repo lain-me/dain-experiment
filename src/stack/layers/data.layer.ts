@@ -1,10 +1,11 @@
+import { Observable } from 'rxjs';
 import { ProtocolLayer } from '../core/protocol-layer';
 
 import { App } from '../app';
 import { GenericPacket } from '../packets';
 import { ApplicationClient } from '../clients';
 
-export class DataLayer extends ProtocolLayer {
+export class DataLayer extends ProtocolLayer<GenericPacket> {
 	constructor(private app : App, private application : ApplicationClient)
 	{
 		super();
@@ -18,9 +19,9 @@ export class DataLayer extends ProtocolLayer {
 		console.log('DataLayer receive');
 	}
 
-	transmit(packet : GenericPacket)
+	transmit(packet : GenericPacket) : Observable<GenericPacket>
 	{
-		super.transmit(packet);
 		console.log('DataLayer transmit');
+		return super.transmit(packet);
 	}
 }

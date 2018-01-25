@@ -1,6 +1,7 @@
 import { ProtocolPacket } from './protocol-packet';
+import { Observable } from 'rxjs/Observable';
 
-export class ProtocolLayer {
+export class ProtocolLayer<T extends ProtocolPacket> {
 	constructor()
 	{
 	}
@@ -9,7 +10,7 @@ export class ProtocolLayer {
 	{
 	}
 
-	private _upperLayer : ProtocolLayer = null;
+	private _upperLayer : ProtocolLayer<T> = null;
 	public get upperLayer()
 	{
 		return this._upperLayer;
@@ -20,7 +21,7 @@ export class ProtocolLayer {
 		this._upperLayer = value;
 	}
 
-	private _lowerLayer : ProtocolLayer = null;
+	private _lowerLayer : ProtocolLayer<T> = null;
 	public get lowerLayer()
 	{
 		return this._lowerLayer;
@@ -31,9 +32,9 @@ export class ProtocolLayer {
 		this._lowerLayer = value;
 	}
 
-	transmit(packet : ProtocolPacket)
+	transmit(packet : T) : Observable<T>
 	{
-		this.lowerLayer.transmit(packet);
+		return this.lowerLayer.transmit(packet);
 	}
 
 	receive(packet : ProtocolPacket)

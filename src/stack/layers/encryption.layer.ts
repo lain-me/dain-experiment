@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { ProtocolLayer } from '../core/protocol-layer';
 import { App } from '../app';
 import { GenericPacket, PacketRole, PublicKeyPacket } from '../packets';
@@ -6,7 +7,7 @@ import { pki, md } from 'node-forge';
 import { resolve } from 'path';
 import * as fs from 'fs';
 
-export class EncryptionLayer extends ProtocolLayer {
+export class EncryptionLayer extends ProtocolLayer<GenericPacket> {
 	private key : pki.KeyPair = null;
 	private uid : any;
 
@@ -83,9 +84,9 @@ export class EncryptionLayer extends ProtocolLayer {
 		console.log('EncryptionLayer receive');
 	}
 
-	transmit(packet : GenericPacket)
+	transmit(packet : GenericPacket) : Observable<GenericPacket>
 	{
-		super.transmit(packet);
 		console.log('EncryptionLayer transmit');
+		return super.transmit(packet);
 	}
 }
