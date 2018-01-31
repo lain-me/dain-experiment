@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { ProtocolLayer } from '../core/protocol-layer';
+import { ProtocolLayer } from '../core';
 import { App } from '../app';
 import { GenericPacket, PacketRole, PublicKeyPacket } from '../packets';
 

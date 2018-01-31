@@ -1,5 +1,3 @@
-import { JsonSerializer } from '../serializer/json-serializer.interface';
-
 import { PacketRole } from './packet-role.enum';
 import { PacketType } from './packet-type.enum';
 

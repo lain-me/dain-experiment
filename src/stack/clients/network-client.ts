@@ -1,8 +1,7 @@
 import { Observable, Observer } from 'rxjs';
 
 import { SocketMessage, SocketEncrypt, SocketDecrypt } from '../../common';
-import { ProtocolStack } from '../core/protocol-stack';
-import { GenericPacket } from '../packets';
+import { GenericPacket, GenericStack } from '../packets';
 
 import { TcpSocket } from './tcp-socket';
 
@@ -24,7 +23,7 @@ export class NetworkClient {
 	waiting_messages : MessagesMap = {};
 
 
-	constructor(private stack : ProtocolStack)
+	constructor(private stack : GenericStack)
 	{
 		this.initNetworkClient();
 	}

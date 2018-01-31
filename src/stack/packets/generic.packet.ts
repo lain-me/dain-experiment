@@ -1,4 +1,4 @@
-import { ProtocolPacket } from '../core/protocol-packet';
+import { ProtocolPacket } from '../core';
 import { PacketHeader } from './packet-header.class';
 import { JsonSerializer } from '../serializer/json-serializer.interface';
 
