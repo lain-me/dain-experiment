@@ -5,3 +5,4 @@ export * from './public-key.packet';
 export * from './packet-header.class';
 export * from './packet-type.enum';
 export * from './packet-role.enum';
+export * from './generic-stack';

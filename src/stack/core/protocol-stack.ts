@@ -7,9 +7,9 @@ export enum Placement {
 	BELOW
 }
 
-export class ProtocolStack {
-	highestLayer : ProtocolLayer = null;
-	lowestLayer : ProtocolLayer = null;
+export class ProtocolStack<T extends ProtocolPacket> {
+	highestLayer : ProtocolLayer<T> = null;
+	lowestLayer : ProtocolLayer<T> = null;
 
 	constructor()
 	{
@@ -24,17 +24,17 @@ export class ProtocolStack {
 		}
 	}
 
-	handleTransmit(packet : ProtocolPacket)
+	handleTransmit(packet : T)
 	{
 		if (this.highestLayer) this.highestLayer.transmit(packet);
 	}
 
-	handleReceive(packet : ProtocolPacket)
+	handleReceive(packet : T)
 	{
 		if (this.lowestLayer) this.lowestLayer.receive(packet);
 	}
 
-	addLayer(layer : ProtocolLayer, placement : Placement = Placement.TOP, existing_layer : ProtocolLayer = null)
+	addLayer(layer : ProtocolLayer<T>, placement : Placement = Placement.TOP, existing_layer : ProtocolLayer<T> = null)
 	{
 		layer.lowerLayer = null;
 		layer.upperLayer = null;
@@ -55,7 +55,7 @@ export class ProtocolStack {
 				break;
 
 			case Placement.ABOVE:
-				let upperLayer : ProtocolLayer = existing_layer.upperLayer;
+				let upperLayer : ProtocolLayer<T> = existing_layer.upperLayer;
 				layer.upperLayer = upperLayer;
 				layer.lowerLayer = existing_layer;
 				existing_layer.upperLayer = layer;
@@ -66,7 +66,7 @@ export class ProtocolStack {
 				break;
 
 			case Placement.BELOW:
-				let lowerLayer : ProtocolLayer = existing_layer.lowerLayer;
+				let lowerLayer : ProtocolLayer<T> = existing_layer.lowerLayer;
 				layer.upperLayer = existing_layer;
 				layer.lowerLayer = lowerLayer;
 				existing_layer.lowerLayer = layer;
@@ -78,7 +78,7 @@ export class ProtocolStack {
 		}
 	}
 
-	removeLayer(layer : ProtocolLayer)
+	removeLayer(layer : ProtocolLayer<T>)
 	{
 		if (layer == this.highestLayer) {
 			this.highestLayer = layer.lowerLayer;

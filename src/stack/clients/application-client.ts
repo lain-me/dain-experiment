@@ -3,8 +3,7 @@ import * as http from 'http';
 import * as io from 'socket.io';
 import { resolve } from 'path';
 
-import { ProtocolStack } from '../core/protocol-stack';
-import { GenericPacket } from '../packets';
+import { GenericPacket, GenericStack } from '../packets';
 
 import chalk from 'chalk';
 
@@ -13,7 +12,7 @@ export class ApplicationClient {
 	http_server;
 	io_server;
 
-	constructor(private stack : ProtocolStack)
+	constructor(private stack : GenericStack)
 	{
 		this.initApplicationClient();
 	}

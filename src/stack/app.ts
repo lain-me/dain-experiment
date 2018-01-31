@@ -1,12 +1,12 @@
-import { ProtocolStack } from './core/protocol-stack';
 import { Config } from './config';
 
 import { StorageLayer, EncryptionLayer, DataLayer } from './layers';
 import { NetworkClient, ApplicationClient } from './clients';
+import { GenericStack } from './packets';
 
 
 export class App {
-	public stack : ProtocolStack = null;
+	public stack : GenericStack = null;
 	public config : Config = null;
 	public network_client : NetworkClient;
 	public application_client : ApplicationClient;
@@ -21,7 +21,7 @@ export class App {
 
 	init()
 	{
-		this.stack = new ProtocolStack();
+		this.stack = new GenericStack();
 
 		this.network_client = new NetworkClient(this.stack);
 		this.application_client = new ApplicationClient(this.stack);
@@ -31,8 +31,5 @@ export class App {
 		this.stack.addLayer(new DataLayer(this, this.application_client));
 
 		this.stack.init();
-
-		// console.log('Highest layer: ' + this.stack.highestLayer.constructor.name);
-		// console.log('Lowest layer: ' + this.stack.lowestLayer.constructor.name);
 	}
 }
