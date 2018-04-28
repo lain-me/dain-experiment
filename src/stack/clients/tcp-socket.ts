@@ -7,7 +7,7 @@ http://www.hacksparrow.com/tcp-socket-programming-in-node-js.html.) */
 import * as net from 'net';
 
 const MAX_CONNECTION_ATTEMPT = 10;
-const MAX_CONNECTION_ATTEMPT_TIMEOUT = 1000;
+const MAX_CONNECTION_ATTEMPT_TIMEOUT = 10000;
 
 export class TcpSocket {
 	get rawSocket() : net.Socket

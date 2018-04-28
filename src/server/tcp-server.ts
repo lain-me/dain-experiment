@@ -22,7 +22,9 @@ export class TcpServer {
 	run()
 	{
 		this.server = net.createServer((socket) => {
+			console.log(chalk.bgBlackBright('TCP Server creating'));
 			socket.on('close', () => {
+				console.log(chalk.bgBlackBright('TCP Server was disconnected from '), socket.remoteAddress);
 				delete this.sockets[socket.remoteAddress];
 			});
 

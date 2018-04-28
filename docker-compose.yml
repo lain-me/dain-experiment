@@ -30,6 +30,11 @@ services:
          - mongodb
       command: npm run server
       restart: on-failure
+      healthcheck:
+         test: sh -c "[ -f dist/server/server-startup.js ]"
+         interval: 5s
+         timeout: 5s
+         retries: 10
       environment:
          USER: user1
          FORCE_COLOR: 1
