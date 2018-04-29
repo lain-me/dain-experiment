@@ -1,5 +1,5 @@
 import { ProtocolPacket } from './protocol-packet';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 export class ProtocolLayer<T extends ProtocolPacket> {
 	constructor()

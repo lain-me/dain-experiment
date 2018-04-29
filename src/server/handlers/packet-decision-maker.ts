@@ -1,11 +1,10 @@
 import { DataPacket, GenericPacket, GroupKeyPacket, PacketType, PublicKeyPacket } from '../../stack/packets';
+import { Observable } from 'rxjs';
 
 import { MongoProxy } from '../mongo-proxy';
-import { HandlerParams } from './handler-params.interface';
 import { GroupKeyPacketHandler } from './group-key-packet.handler';
 import { DataPacketHandler } from './data-packet.handler';
 import { PublicKeyPacketHandler } from './public-key-packet.handler';
-import { Observable } from 'rxjs/Observable';
 
 export class PacketDecisionMaker {
 	publicKeyHandler : PublicKeyPacketHandler = null;
