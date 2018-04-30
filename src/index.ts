@@ -1,5 +1,5 @@
-import { App } from './stack/app';
+import { Dain } from './stack/dain';
 
 process.env.USER = process.env.USER || '';
 
-new App({name : process.env.USER});
+new Dain({name : process.env.USER});

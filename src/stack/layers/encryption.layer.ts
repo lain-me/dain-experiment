@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { ProtocolLayer } from '../core';
-import { App } from '../app';
+import { Dain } from '../dain';
 import { GenericPacket, PacketRole, PublicKeyPacket } from '../packets';
 
 import { pki, md } from 'node-forge';
@@ -11,7 +11,7 @@ export class EncryptionLayer extends ProtocolLayer<GenericPacket> {
 	private key : pki.KeyPair = null;
 	private uid : any;
 
-	constructor(private app : App)
+	constructor(private app : Dain)
 	{
 		super();
 

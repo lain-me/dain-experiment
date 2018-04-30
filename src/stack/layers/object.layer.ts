@@ -4,13 +4,13 @@ import { ProtocolLayer } from '../core';
 import { Dain } from '../dain';
 import { GenericPacket } from '../packets';
 
-export class DataLayer extends ProtocolLayer<GenericPacket> {
+export class ObjectLayer extends ProtocolLayer<GenericPacket> {
 
 	constructor(private app : Dain)
 	{
 		super();
 
-		console.log('DataLayer is initialized for ' + app.config.env_name);
+		console.log('ObjectLayer is initialized for ' + app.config.env_name);
 	}
 
 	receive(packet : GenericPacket)

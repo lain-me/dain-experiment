@@ -1,14 +1,13 @@
 import { Observable } from 'rxjs';
 import { ProtocolLayer } from '../core';
 
-import { App } from '../app';
+import { Dain } from '../dain';
 import { GenericPacket } from '../packets';
 import { NetworkClient } from '../clients';
 
 export class StorageLayer extends ProtocolLayer<GenericPacket> {
 
-
-	constructor(private app : App, private network : NetworkClient)
+	constructor(private app : Dain, private network : NetworkClient)
 	{
 		super();
 
